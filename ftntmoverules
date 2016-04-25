@@ -1,0 +1,62 @@
+#!/bin/sh
+
+DEBUG=false
+MOVEFROM=196
+INSERTBEFORE=12
+NUMBEROFRULES=5
+
+while echo $1 |grep "^-" >/dev/null
+do
+  case $1 in
+    "--debug" )
+      DEBUG=true
+      shift
+      ;;
+    "--from" )
+      MOVEFROM=$2
+      shift;shift
+      ;;
+    "--before" )
+      INSERTBEFORE=$2
+      shift; shift
+      ;;
+    "--count" )
+      NUMBEROFRULES=$2
+      shift;shift
+      ;;
+    "--help" | "-?" | "-h" | * )
+      echo Usage:
+      echo $0 "[OPTIONS]"
+      echo OPTIONS:
+      echo "--help -? -h"
+      echo "--from <rulenum> ;# the first rule number of the set of rules to be moved"
+      echo "--before <rulenum> ;# insert rules before this rule number"
+      echo "--count <numberofrules> ;# the number of rules to be moved"
+      echo
+      echo This program outputs commands to move a section of
+      echo fortigate firewall policy rules from/to locations in the policy
+      exit
+      ;;
+  esac
+done
+
+echo
+echo "### $0 --from $MOVEFROM --before $INSERTBEFORE --count $NUMBEROFRULES"
+echo "### moving $NUMBEROFRULES rules from Rule $MOVEFROM to $INSERTBEFORE"
+echo
+echo config firewall policy
+echo
+
+if [ $MOVEFROM -gt $INSERTBEFORE ]
+then
+  let FROMRULE=$MOVEFROM-1+$NUMBEROFRULES
+else
+  FROMRULE=$MOVEFROM
+fi
+
+COUNT="$NUMBEROFRULES"
+while [ $COUNT -ge 1 ]
+do
+  echo move $FROMRULE before $INSERTBEFORE
+  let COUNT=$COUNT-1
+done
