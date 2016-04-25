@@ -11,10 +11,10 @@ You can move one rule at a time but not a set of rules.
 
 This command (ftntmoverules) generates a set of "move" commands to move a number of commands from one spot in the firewall policy to another.
 
-Usage:
-./ftntmoverules [OPTIONS]
-OPTIONS:
---help -? -h
---from <rulenum> ;# the first rule number of the set of rules to be moved
---before <rulenum> ;# insert rules before this rule number
---count <numberofrules> ;# the number of rules to be moved
+  Usage:
+  ./ftntmoverules [OPTIONS]
+  OPTIONS:
+  --help -? -h
+  --from <rulenum> ;# the first rule number of the set of rules to be moved
+  --before <rulenum> ;# insert rules before this rule number
+  --count <numberofrules> ;# the number of rules to be moved
